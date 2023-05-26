@@ -66,10 +66,10 @@ jobs:
       
       - name: Convert release bundle 
         run: |
-          mv .platforms/android/app/build/outputs/bundle/release/app-release.aab ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.aab \
-          bundletool build-apks --bundle ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.aab --output ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.apks --mode=universal \
-          cp ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.apks ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.zip \
-          unzip ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.apks \
+          mv .platforms/android/app/build/outputs/bundle/release/app-release.aab ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.aab 
+          bundletool build-apks --bundle ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.aab --output ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.apks --mode=universal 
+          cp ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.apks ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.zip 
+          unzip ./platforms/android/app/build/outputs/bundle/release/Beanconqueror.apks 
           ls 
 
 
