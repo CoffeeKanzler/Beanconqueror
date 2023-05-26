@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get npm cache directory
         id: npm-cache-dir
@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -60,14 +60,14 @@ jobs:
         run: ionic cordova platform add android@${{ env.ANDROID_VERSION }}
 
       - name: Build Android
-        run: ionic cordova build android
+        run: ionic cordova build android --prod --release
 
       - name: Upload Android artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: android-build
           path: platforms/android/app/build/outputs/apk/debug/app-debug.apk
-          
+
   ios-build:
     runs-on: macos-latest
 
@@ -108,7 +108,7 @@ jobs:
         run: ionic cordova platform add ios@${{ env.IOS_VERSION }}
 
       - name: Build iOS
-        run: ionic cordova build ios
+        run: ionic cordova build ios --prod --release
 
       - name: Upload iOS artifact
         uses: actions/upload-artifact@v2
