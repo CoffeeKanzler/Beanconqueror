@@ -52,6 +52,9 @@ jobs:
       - name: Add imagepicker manualyl
         run: ionic cordova plugin add git+https://github.com/Telerik-Verified-Plugins/ImagePicker.git#2.3.4
 
+      - name: try weird stuff
+        run: bash install.md
+
       - name: Add Android platform
         run: ionic cordova platform add android@${{ env.ANDROID_VERSION }}
 
@@ -87,8 +90,6 @@ jobs:
         run: |
           npm install -g @ionic/cli@${{ env.IONIC_VERSION }}
           npm install -g cordova@${{ env.CORDOVA_VERSION }}
-      - name: try weird stuff
-        run: bash install.md
 
       - name: Install project dependencies
         run: npm ci
