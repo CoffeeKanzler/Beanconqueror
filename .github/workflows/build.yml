@@ -122,6 +122,9 @@ jobs:
       - name: Add iOS platform
         run: ionic cordova platform add ios@${{ env.IOS_VERSION }}
 
+      - name: Move release.plist
+        run: mv Entitlements-Release.plist ./platforms/ios/Beanconqueror/Entitlements-Release.plist
+
       - name: Build iOS
         run: ionic cordova build ios --prod --release
 
