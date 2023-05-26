@@ -1,0 +1,55 @@
+name: Build App
+
+on:
+  push:
+    branches:
+      - feature/build
+
+env:
+  NODE_VERSION: '16'
+  IONIC_VERSION: 'latest'
+  CORDOVA_VERSION: '11.0.0'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        platform: [android, ios]
+        android_version: ['10.1.2']
+        ios_version: ['6.2.0']
+
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Ionic and Cordova globally
+        run: |
+          npm install -g @ionic/cli@${{ env.IONIC_VERSION }}
+          npm install -g cordova@${{ env.CORDOVA_VERSION }}
+
+      - name: Install project dependencies
+        run: npm install
+
+      - name: Prepare project
+        run: npm run prepare
+
+      - name: Add ${{ matrix.platform }} platform
+        run: |
+          if [ "${{ matrix.platform }}" == "android" ]; then
+            ionic cordova platform add android@${{ matrix.android_version }}
+          else
+            ionic cordova platform add ios@${{ matrix.ios_version }}
+          fi
+
+      - name: Build ${{ matrix.platform }}
+        run: |
+          if [ "${{ matrix.platform }}" == "android" ]; then
+            ionic cordova build android
+          else
+            ionic cordova build ios
+          fi
