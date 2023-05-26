@@ -53,10 +53,7 @@ jobs:
         run: ionic cordova plugin add git+https://github.com/Telerik-Verified-Plugins/ImagePicker.git#2.3.4
 
       - name: try weird stuff
-        run: |
-           set +e \
-           bash install.md \
-           set -e 
+        run: bash install.sh
 
 
       - name: Add Android platform
