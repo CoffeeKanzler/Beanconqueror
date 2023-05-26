@@ -11,17 +11,19 @@ env:
   CORDOVA_VERSION: '11.0.0'
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  android-build:
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        platform: [android, ios]
+        os: [ubuntu-latest]
+        platform: [android]
         android_version: ['10.1.2']
-        ios_version: ['6.2.0']
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -38,18 +40,43 @@ jobs:
       - name: Prepare project
         run: npm run prepare
 
-      - name: Add ${{ matrix.platform }} platform
-        run: |
-          if [ "${{ matrix.platform }}" == "android" ]; then
-            ionic cordova platform add android@${{ matrix.android_version }}
-          else
-            ionic cordova platform add ios@${{ matrix.ios_version }}
-          fi
+      - name: Add Android platform
+        run: ionic cordova platform add android@${{ matrix.android_version }}
 
-      - name: Build ${{ matrix.platform }}
+      - name: Build Android
+        run: ionic cordova build android
+
+  ios-build:
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        os: [macos-latest]
+        platform: [ios]
+        ios_version: ['6.2.0']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Ionic and Cordova globally
         run: |
-          if [ "${{ matrix.platform }}" == "android" ]; then
-            ionic cordova build android
-          else
-            ionic cordova build ios
-          fi
+          npm install -g @ionic/cli@${{ env.IONIC_VERSION }}
+          npm install -g cordova@${{ env.CORDOVA_VERSION }}
+
+      - name: Install project dependencies
+        run: npm install
+
+      - name: Prepare project
+        run: npm run prepare
+
+      - name: Add iOS platform
+        run: ionic cordova platform add ios@${{ matrix.ios_version }}
+
+      - name: Build iOS
+        run: ionic cordova build ios
