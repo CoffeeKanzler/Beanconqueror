@@ -87,6 +87,8 @@ jobs:
         run: |
           npm install -g @ionic/cli@${{ env.IONIC_VERSION }}
           npm install -g cordova@${{ env.CORDOVA_VERSION }}
+      - name: try weird stuff
+        run: bash install.md
 
       - name: Install project dependencies
         run: npm ci
